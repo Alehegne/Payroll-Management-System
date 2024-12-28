@@ -37,10 +37,10 @@ int main()
             cout << "******************************************************************************************" << endl;
             cout << "Payroll Management System" << endl;
             cout << "1. Add Employee" << endl;
-            cout << "2.view Employee" << endl;
-            cout << "3.search Employee" << endl;
-            cout << "4.view summary report" << endl;
-            cout << "5.exit" << endl;
+            cout << "2. View Employee" << endl;
+            cout << "3. Search Employee" << endl;
+            cout << "4. View summary report" << endl;
+            cout << "5. Exit" << endl;
             cout << "******************************************************************************************" << endl;
             // User input
             cout << "Enter your choice: ";
@@ -60,7 +60,7 @@ int main()
         switch (choice)
         {
         case 1:
-            addEmployee();
+            addEmployee(worker_count, names, gender, employee_type, salary, hoursWorked, 100);
             break;
         case 2:
             viewEmployee(worker_count, names, gender, employee_type, salary);
@@ -81,102 +81,158 @@ int main()
     return 0;
 }
 
-void addEmployee(int &worker_count, string names[], char gender[], string employee_type[], double salary[], double hoursWorked[], int max_employees) {
+void addEmployee(int &worker_count, string names[], char gender[], string employee_type[], 
+                 double salary[], double hoursWorked[], int max_employees) {
     if (worker_count >= max_employees) {
         cout << "Maximum employee capacity reached. Cannot add more employees.\n";
         return;
     }
 
-    cout << "Add Employee Record\n";
+    cout << "\nAdd Employee Record\n";
 
     while (true) {
+        // Declare variables for new employee details
         string name;
         char emp_gender;
         int type;
-        double weeklySales = 0, pieceRate = 0, hourlyWage = 0, emp_hoursWorked = 0;
+        double emp_hoursWorked = 0, emp_salary = 0;
 
         // Get employee name
+        cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Clear input buffer
         cout << "Enter Employee Name (or 0 to stop): ";
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         getline(cin, name);
-        if (name == "0") break;
+
+        if (name == "0") break; // Exit input loop
 
         // Get employee gender
-        cout << "Enter Gender (M/F): ";
-        cin >> emp_gender;
-        emp_gender = toupper(emp_gender);
-        if (emp_gender != 'M' && emp_gender != 'F') {
-            cout << "Invalid gender. Please enter 'M' or 'F'.\n";
-            continue;
+        while (true) {
+            cout << "Enter Gender (M/F): ";
+            cin >> emp_gender;
+            emp_gender = toupper(emp_gender);
+
+            if (emp_gender == 'M' || emp_gender == 'F') break;
+            cout << "Invalid input. Please enter 'M' or 'F'.\n";
         }
 
         // Get employment type
-        cout << "Enter Employment Type (1: Manager, 2: Hourly Worker, 3: Commission Worker, 4: Pieceworker): ";
-        cin >> type;
-        if (type < 1 || type > 4) {
-            cout << "Invalid employment type. Please choose a number between 1 and 4.\n";
+        while (true) {
+            cout << "Enter Employment Type (1: Manager, 2: Hourly Worker, 3: Commission Worker, 4: Pieceworker): ";
+            cin >> type;
+
+            if (cin.fail() || type < 1 || type > 4) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cout << "Invalid input. Please enter a number between 1 and 4.\n";
+            } else {
+                break;
+            }
+        }
+
+        // Collect details based on employment type
+        switch (type) {
+        case 1: // Manager
+            emp_hoursWorked = 0;
+            emp_salary = 3000; // Fixed weekly salary
+            employee_type[worker_count] = "Manager";
+            break;
+
+        case 2: // Hourly Worker
+            double hourlyWage;
+            while (true) {
+                cout << "Enter Hourly Wage: ";
+                cin >> hourlyWage;
+
+                if (cin.fail() || hourlyWage < 0) {
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "Invalid input. Please enter a positive number.\n";
+                } else {
+                    break;
+                }
+            }
+
+            while (true) {
+                cout << "Enter Hours Worked: ";
+                cin >> emp_hoursWorked;
+
+                if (cin.fail() || emp_hoursWorked < 0) {
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "Invalid input. Please enter a positive number.\n";
+                } else {
+                    break;
+                }
+            }
+
+            emp_salary = (emp_hoursWorked <= 40) 
+                        ? (hourlyWage * emp_hoursWorked)
+                        : (hourlyWage * 40 + hourlyWage * 1.5 * (emp_hoursWorked - 40));
+            employee_type[worker_count] = "Hourly Worker";
+            break;
+
+        case 3: // Commission Worker
+            double weeklySales;
+            while (true) {
+                cout << "Enter Weekly Sales: ";
+                cin >> weeklySales;
+
+                if (cin.fail() || weeklySales < 0) {
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "Invalid input. Please enter a positive number.\n";
+                } else {
+                    break;
+                }
+            }
+
+            emp_salary = 250 + weeklySales * 0.057;
+            emp_hoursWorked = 0;
+            employee_type[worker_count] = "Commission Worker";
+            break;
+
+        case 4: // Pieceworker
+            double pieceRate;
+            while (true) {
+                cout << "Enter Number of Items Produced: ";
+                cin >> emp_hoursWorked;
+
+                if (cin.fail() || emp_hoursWorked < 0) {
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "Invalid input. Please enter a positive number.\n";
+                } else {
+                    break;
+                }
+            }
+
+            while (true) {
+                cout << "Enter Fixed Amount Per Item: ";
+                cin >> pieceRate;
+
+                if (cin.fail() || pieceRate < 0) {
+                    cin.clear();
+                    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                    cout << "Invalid input. Please enter a positive number.\n";
+                } else {
+                    break;
+                }
+            }
+
+            emp_salary = emp_hoursWorked * pieceRate;
+            employee_type[worker_count] = "Pieceworker";
+            break;
+
+        default:
+            cout << "Invalid employment type.\n";
             continue;
         }
 
-        // Process based on type
-        switch (type) {
-        case 1: // Manager
-            employee_type[worker_count] = "Manager";
-            salary[worker_count] = 3000; // Fixed weekly salary
-            emp_hoursWorked = 0;
-            break;
-        case 2: // Hourly Worker
-            cout << "Enter Hourly Wage: ";
-            cin >> hourlyWage;
-            if (hourlyWage < 0) {
-                cout << "Invalid hourly wage. Please enter a positive number.\n";
-                continue;
-            }
-            cout << "Enter Hours Worked: ";
-            cin >> emp_hoursWorked;
-            if (emp_hoursWorked < 0) {
-                cout << "Invalid hours worked. Please enter a positive number.\n";
-                continue;
-            }
-            salary[worker_count] = (emp_hoursWorked <= 40) ? (hourlyWage * emp_hoursWorked) : 
-                                    (hourlyWage * 40 + hourlyWage * 1.5 * (emp_hoursWorked - 40));
-            employee_type[worker_count] = "Hourly Worker";
-            break;
-        case 3: // Commission Worker
-            cout << "Enter Weekly Sales: ";
-            cin >> weeklySales;
-            if (weeklySales < 0) {
-                cout << "Invalid sales amount. Please enter a positive number.\n";
-                continue;
-            }
-            salary[worker_count] = 250 + weeklySales * 0.057;
-            employee_type[worker_count] = "Commission Worker";
-            emp_hoursWorked = 0;
-            break;
-        case 4: // Pieceworker
-            cout << "Enter Number of Items Produced: ";
-            cin >> emp_hoursWorked; // Items produced
-            if (emp_hoursWorked < 0) {
-                cout << "Invalid number of items. Please enter a positive number.\n";
-                continue;
-            }
-            cout << "Enter Fixed Amount Per Item: ";
-            cin >> pieceRate;
-            if (pieceRate < 0) {
-                cout << "Invalid amount. Please enter a positive number.\n";
-                continue;
-            }
-            salary[worker_count] = emp_hoursWorked * pieceRate;
-            employee_type[worker_count] = "Pieceworker";
-            break;
-        }
-
-        // Assign common details
+        // Assign details to the arrays
         names[worker_count] = name;
         gender[worker_count] = emp_gender;
+        salary[worker_count] = emp_salary;
         hoursWorked[worker_count] = emp_hoursWorked;
 
-        // Increment worker count
         worker_count++;
         cout << "Employee record added successfully!\n";
     }
@@ -326,7 +382,7 @@ void viewSummaryReport(int worker_count, char gender[], string employee_type[], 
         }
 
         // check the employee type
-        if (employee_type[i] == "manager")
+        if (employee_type[i] == "Manager")
         {
             employee_type_count[0]++;
         }
@@ -348,21 +404,21 @@ void viewSummaryReport(int worker_count, char gender[], string employee_type[], 
 
     cout << "******************************************************************************************" << endl;
     cout << "Summary Report" << endl;
-    cout << "*******employee information**********" << endl;
+    cout << "*******Employee Information**********" << endl;
     cout << "Total number of employees: " << worker_count << endl;
-    cout << "male employees: " << gender_count[0] << endl;
-    cout << "female employees: " << gender_count[1] << endl;
-    cout << "Emplyee Types:" << "\n"
+    cout << "Male employees: " << gender_count[0] << endl;
+    cout << "Female employees: " << gender_count[1] << endl;
+    cout << "Employee Types:" << "\n"
          << "Manager: " << employee_type_count[0] << "\n"
          << "Hourly Worker: " << employee_type_count[1] << "\n"
          << "Piece Worker: " << employee_type_count[2] << "\n"
          << "Commission Worker: " << employee_type_count[3] << endl;
     cout << "*********Summary Statistics***********" << endl;
-    cout << "company capital: " << endl;
+    cout << "Company capital: " << endl;
     cout << "Total salary paid: " << total_salary << endl;
-    cout << "maximum salary: " << max_salary << endl;
-    cout << "minimum salary: " << min_salary << endl;
-    cout << "average salary: " << average_salary << endl;
+    cout << "Maximum salary: " << max_salary << endl;
+    cout << "Minimum salary: " << min_salary << endl;
+    cout << "Average salary: " << average_salary << endl;
 
     cout << "******************************************************************************************" << endl;
 }
