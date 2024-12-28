@@ -391,15 +391,15 @@ void viewSummaryReport(int worker_count, char gender[], string employee_type[], 
         {
             employee_type_count[0]++;
         }
-        else if (employee_type[i] == "hourly_worker")
+        else if (employee_type[i] == "Hourly Worker")
         {
             employee_type_count[1]++;
         }
-        else if (employee_type[i] == "piece_worker")
+        else if (employee_type[i] == "Piece Worker")
         {
             employee_type_count[2]++;
         }
-        else if (employee_type[i] == "commission_worker")
+        else if (employee_type[i] == "Commission Worker")
         {
             employee_type_count[3]++;
         }
