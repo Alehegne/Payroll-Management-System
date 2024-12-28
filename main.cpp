@@ -12,7 +12,7 @@ using namespace std;
 
 // Function prototypes
 void addEmployee();
-void viewEmployee();
+void viewEmployee(int worker_count, string names[], char gender[], string employee_type[], double salary[]);
 void searchEmployee(int worker_count, char gender[], string employee_type[], double salary[], string names[], double hoursWorked[]);
 void viewSummaryReport(int worker_count, char gender[], string employee_type[], double salary[]);
 
@@ -39,7 +39,7 @@ int main()
         // the initialization is just for testing purposes
         string names[100] = {"John", "Jane", "Doe", "jane", "Peter", "Paul", "James", "Alice", "Bob", "Eve"};
         char gender[100] = {'m', 'f', 'm', 'f', 'm', 'f', 'm', 'f', 'm', 'f'};
-        string employe_Type[100] = {"manager", "hourly_worker", "piece_worker", "commission_worker", "hourly_worker", "piece_worker", "commission_worker", "hourly_worker", "piece_worker", "commission_worker"};
+        string employee_type[100] = {"manager", "hourly_worker", "piece_worker", "commission_worker", "hourly_worker", "piece_worker", "commission_worker", "hourly_worker", "piece_worker", "commission_worker"};
         // manager working hours are not needed, is zero
         double hoursWorked[100] = {0, 40, 50, 60, 40, 50, 60, 40, 50, 60};
         double salary[100] = {1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000};
@@ -80,13 +80,13 @@ int main()
             addEmployee();
             break;
         case 2:
-            viewEmployee();
+            viewEmployee(worker_count, names, gender, employee_type, salary);
             break;
         case 3:
-            searchEmployee(worker_count, gender, employe_Type, salary, names, hoursWorked);
+            searchEmployee(worker_count, gender, employee_type, salary, names, hoursWorked);
             break;
         case 4:
-            viewSummaryReport(worker_count, gender, employe_Type, salary);
+            viewSummaryReport(worker_count, gender, employee_type, salary);
             break;
         case 5:
             exit(0);
@@ -105,10 +105,17 @@ void addEmployee()
     cout << "Add Employee" << endl;
 }
 
-void viewEmployee()
+void viewEmployee(int worker_count, string names[], char gender[], string employee_type[], double salary[])
 {
 
-    cout << "View Employee" << endl;
+    cout << "View All Employee" << endl;
+    cout << "******************************************************************************************" << endl;
+    cout << left << setw(15) << "Name" << setw(10) << "Gender" << setw(20) << "Type" << setw(15) << "Weekly Pay (ETB)" << endl;
+    for (int i = 0; i < worker_count; ++i)
+    {
+        cout << left << setw(15) << names[i] << setw(10) << gender[i] << setw(20) << employee_type[i] << setw(15) << fixed << setprecision(2) << salary[i] << endl;
+    }
+    cout << "******************************************************************************************" << endl;
 }
 
 void searchEmployee(int worker_count, char gender[], string employee_type[], double salary[], string names[], double hoursWorked[])
