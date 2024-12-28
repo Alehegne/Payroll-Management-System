@@ -9,7 +9,7 @@
 using namespace std;
 
 // Function prototypes
-void addEmployee();
+void addEmployee(int &worker_count, string names[], char gender[], string employee_type[], double salary[], double hoursWorked[], int max_employees);
 void viewEmployee(int worker_count, string names[], char gender[], string employee_type[], double salary[]);
 void searchEmployee(int worker_count, char gender[], string employee_type[], double salary[], string names[], double hoursWorked[]);
 void viewSummaryReport(int worker_count, char gender[], string employee_type[], double salary[]);
