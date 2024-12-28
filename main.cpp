@@ -21,7 +21,7 @@ int main()
         // the initialization is just for testing purposes
         string names[100] = {"John", "Jane", "Doe", "Mary", "Peter", "Paul", "James", "Alice", "Bob", "Eve"};
         char gender[100] = {'m', 'f', 'm', 'f', 'm', 'f', 'm', 'f', 'm', 'f'};
-        string employe_Type[100] = {"manager", "hourly_worker", "piece_worker", "commission_worker", "hourly_worker", "piece_worker", "commission_worker", "hourly_worker", "piece_worker", "commission_worker"};
+        string employee_type[100] = {"manager", "hourly_worker", "piece_worker", "commission_worker", "hourly_worker", "piece_worker", "commission_worker", "hourly_worker", "piece_worker", "commission_worker"};
         // manager working hours are not needed, is zero
         double hoursWorked[100] = {0, 40, 50, 60, 40, 50, 60, 40, 50, 60};
         double salary[100] = {1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000};
@@ -63,13 +63,13 @@ int main()
             addEmployee();
             break;
         case 2:
-            viewEmployee();
+            viewEmployee(worker_count, names, gender, employee_type, salary);
             break;
         case 3:
-            searchEmployee(worker_count, gender, employe_Type, salary, names, hoursWorked);
+            searchEmployee(worker_count, gender, employee_type, salary, names, hoursWorked);
             break;
         case 4:
-            viewSummaryReport(worker_count, gender, employe_Type, salary);
+            viewSummaryReport(worker_count, gender, employee_type, salary);
             break;
         case 5:
             exit(0);
