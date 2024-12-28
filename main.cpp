@@ -96,7 +96,7 @@ void viewEmployee(int worker_count, string names[], char gender[], string employ
     cout << left << setw(15) << "Name" << setw(10) << "Gender" << setw(20) << "Type" << setw(15) << "Weekly Pay (ETB)" << endl;
     for(int i = 0; i < worker_count; ++i) 
         {
-            cout << left << setw(15) << names[i] << setw(10) << gender[i] << set(20) << types[i] << setw(15) << fixed << setprecision(2) << salary[i] << endl;
+            cout << left << setw(15) << names[i] << setw(10) << gender[i] << set(20) << employee_type[i] << setw(15) << fixed << setprecision(2) << salary[i] << endl;
         }
         cout << "******************************************************************************************" << endl;
 }
