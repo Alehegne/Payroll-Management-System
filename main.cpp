@@ -81,11 +81,128 @@ int main()
     return 0;
 }
 
-void addEmployee()
-{
-    // update the worker_count while adding a new worker
+void addEmployee() {
+    static int worker_count = 0; // Keep track of the number of workers across calls
 
-    cout << "Add Employee" << endl;
+    cout << "Add Employee Record" << endl;
+    while (true) {
+        string name;
+        char gender;
+        int type;
+        double weeklySales = 0;
+        int itemsProduced = 0;
+        double hourlyWage = 0;
+        double hoursWorked = 0;
+
+        // Get employee name
+        cout << "Enter Employee Name (or 0 to stop): ";
+        cin.ignore(10000, '\n');
+        getline(cin, name);
+
+        if (name == "0") {
+            break;
+        }
+
+        // Get employee gender
+        cout << "Enter Gender (M/F): ";
+        cin >> gender;
+        gender = tolower(gender);
+        if (gender != 'm' && gender != 'f') {
+            cout << "Invalid gender. Please enter 'M' or 'F'." << endl;
+            continue;
+        }
+
+        // Get employee type
+        cout << "Enter Employment Type (1: Manager, 2: Hourly Worker, 3: Commission Worker, 4: Pieceworker): ";
+        cin >> type;
+        if (type < 1 || type > 4) {
+            cout << "Invalid employment type. Please choose a number between 1 and 4." << endl;
+            continue;
+        }
+
+        // Process based on type
+        switch (type) {
+            case 1: // Manager
+                employee_type[worker_count] = "Manager";
+                salary[worker_count] = 3000; // Assume a fixed weekly salary for managers
+                break;
+
+            case 2: // Hourly Worker
+                cout << "Enter Hourly Wage: ";
+                cin >> hourlyWage;
+                if (cin.fail() || hourlyWage < 0) {
+                    cout << "Invalid hourly wage. Please enter a positive number." << endl;
+                    cin.clear();
+                    cin.ignore(10000, '\n');
+                    continue;
+                }
+
+                cout << "Enter Hours Worked: ";
+                cin >> hoursWorked;
+                if (cin.fail() || hoursWorked < 0) {
+                    cout << "Invalid hours worked. Please enter a positive number." << endl;
+                    cin.clear();
+                    cin.ignore(10000, '\n');
+                    continue;
+                }
+
+                if (hoursWorked <= 40) {
+                    salary[worker_count] = hourlyWage * hoursWorked;
+                } else {
+                    salary[worker_count] = (hourlyWage * 40) + (hourlyWage * 1.5 * (hoursWorked - 40));
+                }
+
+                employee_type[worker_count] = "Hourly Worker";
+                break;
+
+            case 3: // Commission Worker
+                cout << "Enter Weekly Sales: ";
+                cin >> weeklySales;
+                if (cin.fail() || weeklySales < 0) {
+                    cout << "Invalid sales amount. Please enter a positive number." << endl;
+                    cin.clear();
+                    cin.ignore(10000, '\n');
+                    continue;
+                }
+
+                salary[worker_count] = 250 + (weeklySales * 0.057);
+                employee_type[worker_count] = "Commission Worker";
+                break;
+
+            case 4: // Pieceworker
+                cout << "Enter Number of Items Produced: ";
+                cin >> itemsProduced;
+                if (cin.fail() || itemsProduced < 0) {
+                    cout << "Invalid number of items. Please enter a positive number." << endl;
+                    cin.clear();
+                    cin.ignore(10000, '\n');
+                    continue;
+                }
+
+                cout << "Enter Fixed Amount Per Item: ";
+                cin >> hourlyWage; // Reusing hourlyWage for piece rate
+                if (cin.fail() || hourlyWage < 0) {
+                    cout << "Invalid amount. Please enter a positive number." << endl;
+                    cin.clear();
+                    cin.ignore(10000, '\n');
+                    continue;
+                }
+
+                salary[worker_count] = itemsProduced * hourlyWage;
+                employee_type[worker_count] = "Pieceworker";
+                break;
+        }
+
+        // Assign common details
+        names[worker_count] = name;
+        gender[worker_count] = gender;
+        hoursWorked[worker_count] = hoursWorked;
+
+        // Increment worker count
+        worker_count++;
+
+        cout << "Employee record added successfully!" << endl;
+    }
 }
 
 void viewEmployee(int worker_count, string names[], char gender[], string employee_type[], double salary[])
