@@ -302,11 +302,12 @@ void searchEmployee(int worker_count, char gender[], string employee_type[], dou
             char search_gender;
             cout << "Enter gender to search (M/F): ";
             cin >> search_gender;
-            search_gender = toupper(search_gender);
+             // to convert user input to lowecase to ensure case insensitivity
+            search_gender = tolower(search_gender);
 
             bool found = false;
             for (int i = 0; i < worker_count; i++) {
-                if (toupper(gender[i]) == search_gender) {
+                if (tolower(gender[i]) == search_gender) {
                     found = true;
                     cout << "\nEmployee found!" << endl;
                     cout << "Name: " << names[i] << endl;
