@@ -1,4 +1,3 @@
-
 #include <iostream>
 #include <string>  // for string manipulation
 #include <cctype>  // for character manipulation
@@ -8,28 +7,30 @@
 
 using namespace std;
 
+// To define the maximum number of employees
+const int max_employees = 100; 
+
 // Function prototypes
-void addEmployee(int &worker_count, string names[], char gender[], string employee_type[], double salary[], double hoursWorked[], int max_employees);
+void addEmployee(int &worker_count, string names[], char gender[], string employee_type[], double salary[], double hoursWorked[]);
 void viewEmployee(int worker_count, string names[], char gender[], string employee_type[], double salary[]);
 void searchEmployee(int worker_count, char gender[], string employee_type[], double salary[], string names[], double hoursWorked[]);
 void viewSummaryReport(int worker_count, char gender[], string employee_type[], double salary[]);
+
 // global variables
 int main()
 {
+    // the initialization is just for testing purposes
+    string names[max_employees] = {"John", "Jane", "Doe", "Mary", "Peter", "Paul", "James", "Alice", "Bob", "Eve"};
+    char gender[max_employees] = {'m', 'f', 'm', 'f', 'm', 'f', 'm', 'f', 'm', 'f'};
+    string employee_type[max_employees] = {"manager", "hourly_worker", "piece_worker", "commission_worker", "hourly_worker", "piece_worker", "commission_worker", "hourly_worker", "piece_worker", "commission_worker"};
+    double hoursWorked[max_employees] = {0, 40, 50, 60, 40, 50, 60, 40, 50, 60};
+    double salary[max_employees] = {1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000};
+
+    int worker_count = 10; // to keep track of the number of workers
+
+    int choice;
     while (true)
     {
-        // the initialization is just for testing purposes
-        string names[100] = {"John", "Jane", "Doe", "Mary", "Peter", "Paul", "James", "Alice", "Bob", "Eve"};
-        char gender[100] = {'m', 'f', 'm', 'f', 'm', 'f', 'm', 'f', 'm', 'f'};
-        string employee_type[100] = {"manager", "hourly_worker", "piece_worker", "commission_worker", "hourly_worker", "piece_worker", "commission_worker", "hourly_worker", "piece_worker", "commission_worker"};
-        // manager working hours are not needed, is zero
-        double hoursWorked[100] = {0, 40, 50, 60, 40, 50, 60, 40, 50, 60};
-        double salary[100] = {1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000};
-
-        int worker_count = 10; // to keep track of the number of workers
-
-        int choice;
-
         // Menu
         do
         {
@@ -60,7 +61,7 @@ int main()
         switch (choice)
         {
         case 1:
-            addEmployee(worker_count, names, gender, employee_type, salary, hoursWorked, 100);
+            addEmployee(worker_count, names, gender, employee_type, salary, hoursWorked);
             break;
         case 2:
             viewEmployee(worker_count, names, gender, employee_type, salary);
@@ -72,17 +73,16 @@ int main()
             viewSummaryReport(worker_count, gender, employee_type, salary);
             break;
         case 5:
-            exit(0);
-            break;
+            cout << "Exiting the program. Goodbye!" << endl;
+            return 0; // Exit the program
         default:
             cout << "Invalid choice" << endl;
         }
     }
-    return 0;
 }
 
 void addEmployee(int &worker_count, string names[], char gender[], string employee_type[], 
-                 double salary[], double hoursWorked[], int max_employees) {
+                 double salary[], double hoursWorked[]) {
     if (worker_count >= max_employees) {
         cout << "Maximum employee capacity reached. Cannot add more employees.\n";
         return;
@@ -241,6 +241,10 @@ void addEmployee(int &worker_count, string names[], char gender[], string employ
 
 void viewEmployee(int worker_count, string names[], char gender[], string employee_type[], double salary[])
 {
+    if (worker_count == 0) {
+        cout << "No employees to display." << endl;
+        return;
+    }
 
     cout << "View All Employee" << endl;
     cout << "******************************************************************************************" << endl;
