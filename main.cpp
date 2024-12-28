@@ -87,9 +87,37 @@ void viewEmployee()
     cout << "View Employee" << endl;
 }
 
-void searchEmployee()
-{
+void searchEmployee(int worker_count, char gender[], string employee_type[], double salary[], string names[], double hoursWorked[])
+{ 
+    if (worker_count == 0) {
+    cout << "No employees to search." << endl;
+    } 
+    else 
+    {
     cout << "Search Employee" << endl;
+    // search for an employee by name
+    string searchName;
+    cout << "Enter the name of the employee to search: ";
+    cin >> searchName;
+
+    bool found = false;
+    for (int i = 0; i < worker_count; i++) {
+        if (names[i] == searchName) {
+            found = true;
+            cout << "Employee found!" << endl;
+            cout << "Name: " << names[i] << endl; 
+            cout << "Gender: " << gender[i] << endl;
+            cout << "Employee Type: "<< employee_type[i] << endl;
+            cout << "Hours Worked: " << hoursWorked[i]<<endl;
+            cout << "Salary: " << salary[i] << endl;
+            break;
+        }
+    }
+
+    if (!found) {
+        cout << "Employee not found." << endl;
+    }
+  }
 }
 void viewSummaryReport(int worker_count, char gender[], string employee_type[], double salary[])
 {
