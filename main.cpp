@@ -10,7 +10,7 @@ using namespace std;
 
 // Function prototypes
 void addEmployee();
-void viewEmployee();
+void viewEmployee(int worker_count, string names[], char gender[], string employee_type[], double salary[]);
 void searchEmployee(int worker_count, char gender[], string employee_type[], double salary[], string names[], double hoursWorked[]);
 void viewSummaryReport(int worker_count, char gender[], string employee_type[], double salary[]);
 // global variables
@@ -88,10 +88,17 @@ void addEmployee()
     cout << "Add Employee" << endl;
 }
 
-void viewEmployee()
+void viewEmployee(int worker_count, string names[], char gender[], string employee_type[], double salary[])
 {
 
-    cout << "View Employee" << endl;
+    cout << "View All Employee" << endl;
+    cout << "******************************************************************************************" << endl;
+    cout << left << setw(15) << "Name" << setw(10) << "Gender" << setw(20) << "Type" << setw(15) << "Weekly Pay (ETB)" << endl;
+    for(int i = 0; i < worker_count; ++i) 
+        {
+            cout << left << setw(15) << names[i] << setw(10) << gender[i] << set(20) << types[i] << setw(15) << fixed << setprecision(2) << salary[i] << endl;
+        }
+        cout << "******************************************************************************************" << endl;
 }
 
 void searchEmployee(int worker_count, char gender[], string employee_type[], double salary[], string names[], double hoursWorked[])
