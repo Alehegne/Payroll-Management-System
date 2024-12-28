@@ -101,35 +101,95 @@ void searchEmployee(int worker_count, char gender[], string employee_type[], dou
         cout << "No employees to search." << endl;
     }
     else
-    {
-        cout << "Search Employee" << endl;
-        // search for an employee by name
-        string searchName;
-        cout << "Enter the name of the employee to search: ";
-        cin >> searchName;
-        bool found = false;
-        for (int i = 0; i < worker_count; i++)
-        {
+    {   
+    int searchOption;
+    do { 
+        cout << "\nSearch Employee" << endl;
+        cout << "Search by:" << endl;
+        cout << "1. Name" << endl;
+        cout << "2. Gender" << endl;
+        cout << "3. Salary" << endl;
+        cout << "Enter your choice: ";
+        cin >> searchOption;
 
-            if (names[i] == searchName)
-            {
-                found = true;
-                cout << "Employee found!" << endl;
-                cout << "Name: " << names[i] << endl;
-                cout << "Gender: " << gender[i] << endl;
-                cout << "Employee Type: " << employee_type[i] << endl;
-                cout << "Hours Worked: " << hoursWorked[i] << endl;
-                cout << "Salary: " << salary[i] << endl;
-                break;
+        if (searchOption < 1 || searchOption > 3) {
+            cout << "Invalid option! Please try again." << endl;
+        }
+    } while (searchOption < 1 || searchOption > 3);
+
+    switch (searchOption) {
+        case 1: { // Search by Name
+            string search_name;
+            cout << "Enter the name of the employee to search: ";
+            cin >> search_name;
+
+            bool found = false;
+            for (int i = 0; i < worker_count; i++) {
+                if (names[i] == search_name) {
+                    found = true;
+                    cout << "\nEmployee found!" << endl;
+                    cout << "Name: " << names[i] << endl;
+                    cout << "Gender: " << gender[i] << endl;
+                    cout << "Employee Type: " << employee_type[i] << endl;
+                    cout << "Hours Worked: " << hoursWorked[i] << endl;
+                    cout << "Salary: " << salary[i] << endl;
+                    break;
+                }
             }
+            if (!found)
+                cout << "No employee found with the name: " << search_name << endl;
+            break;
         }
+        case 2: { // Search by Gender
+            char search_gender;
+            cout << "Enter gender to search (M/F): ";
+            cin >> search_gender;
+            search_gender = toupper(search_gender);
 
-        if (!found)
-        {
-            cout << "Employee not found." << endl;
+            bool found = false;
+            for (int i = 0; i < worker_count; i++) {
+                if (toupper(gender[i]) == search_gender) {
+                    found = true;
+                    cout << "\nEmployee found!" << endl;
+                    cout << "Name: " << names[i] << endl;
+                    cout << "Gender: " << gender[i] << endl;
+                    cout << "Employee Type: " << employee_type[i] << endl;
+                    cout << "Hours Worked: " << hoursWorked[i] << endl;
+                    cout << "Salary: " << salary[i] << endl;
+                }
+            }
+            if (!found)
+                cout << "No employees found with the gender: " << search_gender << endl;
+            break;
         }
+        case 3: { // Search by Salary
+            double search_salary;
+            cout << "Enter the salary to search: ";
+            cin >> search_salary;
+
+            bool found = false;
+            for (int i = 0; i < worker_count; i++) {
+                if (salary[i] == search_salary) {
+                    found = true;
+                    cout << "\nEmployee found!" << endl;
+                    cout << "Name: " << names[i] << endl;
+                    cout << "Gender: " << gender[i] << endl;
+                    cout << "Employee Type: " << employee_type[i] << endl;
+                    cout << "Hours Worked: " << hoursWorked[i] << endl;
+                    cout << "Salary: " << salary[i] << endl;
+                }
+            }
+            if (!found)
+                cout << "No employees found with the salary: " << search_salary << endl;
+            break;
+        }
+        default:
+            cout << "Invalid search option!" << endl;
+            break;
     }
 }
+
+    }
 void viewSummaryReport(int worker_count, char gender[], string employee_type[], double salary[])
 {
     int gender_count[2] = {0, 0};              // to keep track of the number, the first element is male and the second element is female
