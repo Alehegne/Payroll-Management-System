@@ -15,6 +15,8 @@ void addEmployee();
 void viewEmployee();
 void searchEmployee();
 void viewSummaryReport();
+void updateEmployee();
+void deleteEmployee();
 
 // Function to clear the input buffer
 void clearInputBuffer()
@@ -23,7 +25,7 @@ void clearInputBuffer()
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
 // Function to convert a string to lower case
-string toLowerCase(string str)
+std::string toLowerCase(string str)
 {
     for (char &c : str)
     {
@@ -31,14 +33,16 @@ string toLowerCase(string str)
     }
     return str;
 }
+
 // global variables
-string names[100] = {"John", "Jane", "Doe", "jane", "Peter", "Paul", "James", "Alice", "Bob", "Eve"};
-char gender[100] = {'m', 'f', 'm', 'f', 'm', 'f', 'm', 'f', 'm', 'f'};
-string employee_type[100] = {"manager", "hourly_worker", "piece_worker", "commission_worker", "hourly_worker", "piece_worker", "commission_worker", "hourly_worker", "piece_worker", "commission_worker"};
+string names[100];
+char gender[100];
+string employee_type[100];
 // manager working hours are not needed, is zero
-double hoursWorked[100] = {0, 40, 50, 60, 40, 50, 60, 40, 50, 60};
-double salary[100] = {1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000};
-int worker_count = 10; // to keep track of the number of workers
+double hoursWorked[100];
+double salary[100];
+int worker_count = 0; // to keep track of the number of workers
+int worker_id[100];
 
 int main()
 {
@@ -59,12 +63,14 @@ int main()
                 cout << "2. View Employee" << endl;
                 cout << "3. Search Employee" << endl;
                 cout << "4. View summary report" << endl;
-                cout << "5. Exit" << endl;
+                cout << "5.update Employee details" << endl;
+                cout << "6.delete Employee record" << endl;
+                cout << "7. Exit" << endl;
                 cout << "******************************************************************************************" << endl;
                 // User input
                 cout << "Enter your choice: ";
                 cin >> choice;
-                if (choice < 1 || choice > 5)
+                if (choice < 1 || choice > 7)
                 {
                     cout << "Invalid choice" << endl;
                 }
@@ -73,7 +79,7 @@ int main()
                     clearInputBuffer();
                     cout << "Invalid input. Please enter a number(1-5)." << endl;
                 }
-            } while (choice < 1 || choice > 5);
+            } while (choice < 1 || choice > 7);
 
             switch (choice)
             {
@@ -90,6 +96,12 @@ int main()
                 viewSummaryReport();
                 break;
             case 5:
+                updateEmployee();
+                break;
+            case 6:
+                deleteEmployee();
+                break;
+            case 7:
                 cout << "Exiting the program. Goodbye!" << endl;
                 return 0; // Exit the program
             default:
@@ -116,17 +128,62 @@ void addEmployee()
         double emp_hoursWorked = 0, emp_salary = 0;
 
         // Get employee name
-        cout << "Enter Employee Name (or 0 to stop): ";
-        clearInputBuffer();
-        getline(cin, name);
-        if (name == "0")
-            break;
+        do
+        {
+            cout << "Enter Employee Name (or 0 to stop): ";
+            clearInputBuffer();
+            getline(cin, name);
+            if (name == "0")
+                return;
+            if (name.empty())
+            {
+                cout << "Name cannot be empty. Please enter a name. \n";
+            }
+        } while (name.empty());
+
+        // enter id
+        bool isIdTaken = false;
+        do
+        {
+            int id;
+            cout << "Enter Employee ID: ";
+            cin >> id;
+            if (cin.fail())
+            {
+                cout << "Invalid ID. Please enter a number.\n";
+                clearInputBuffer();
+                continue;
+            }
+            // check if the id is already taken
+            if (worker_count == 0)
+            {
+                worker_id[worker_count] = id;
+            }
+            else
+            {
+                for (int i = 0; i < worker_count; i++)
+                {
+                    if (id == worker_id[i])
+                    {
+                        cout << "ID already taken. Please enter a different ID.\n";
+                        isIdTaken = true;
+                        break;
+                    }
+                    else
+                    {
+                        worker_id[worker_count] = id;
+                        isIdTaken = false;
+                    }
+                }
+            }
+        } while (isIdTaken);
 
         // Get employee gender
         do
         {
             cout << "Enter Gender (M/F): ";
             cin >> emp_gender;
+            clearInputBuffer();
             emp_gender = toupper(emp_gender);
             if (emp_gender != 'M' && emp_gender != 'F')
             {
@@ -151,7 +208,7 @@ void addEmployee()
         {
         case 1: // Manager
             emp_hoursWorked = 0;
-            emp_salary = 3000; // Fixed weekly salary
+            salary[worker_count] = 3000; // Fixed weekly salary
             employee_type[worker_count] = "Manager";
             break;
 
@@ -203,15 +260,17 @@ void addEmployee()
         case 4: // Pieceworker
         {
             double pieceRate;
+            double noOfItems;
+
             do
             {
-                double noOfItems;
 
                 cout << "Enter Number of Items Produced: ";
                 cin >> noOfItems; // Items produced
                 if (noOfItems < 0 || cin.fail())
                 {
                     cout << "Invalid number of items. Please enter a positive number.\n";
+                    clearInputBuffer();
                 }
 
                 cout << "Enter Fixed Amount Per Item: ";
@@ -223,7 +282,7 @@ void addEmployee()
                 }
             } while (emp_hoursWorked < 0 || pieceRate < 0);
 
-            salary[worker_count] = emp_hoursWorked * pieceRate;
+            salary[worker_count] = noOfItems * pieceRate;
             employee_type[worker_count] = "Pieceworker";
             break;
         }
@@ -235,7 +294,6 @@ void addEmployee()
         // Assign details to the arrays
         names[worker_count] = name;
         gender[worker_count] = emp_gender;
-        salary[worker_count] = emp_salary;
         hoursWorked[worker_count] = emp_hoursWorked;
 
         worker_count++;
@@ -253,10 +311,10 @@ void viewEmployee()
 
     cout << "View All Employee" << endl;
     cout << "******************************************************************************************" << endl;
-    cout << left << setw(15) << "Name" << setw(10) << "Gender" << setw(20) << "Type" << setw(15) << "Weekly Pay (ETB)" << endl;
+    cout << left << setw(15) << "Name" << setw(10) << "Id" << setw(10) << "Gender" << setw(20) << "Type" << setw(15) << "Weekly Pay (ETB)" << endl;
     for (int i = 0; i < worker_count; ++i)
     {
-        cout << left << setw(15) << names[i] << setw(10) << gender[i] << setw(20) << employee_type[i] << setw(15) << fixed << setprecision(2) << salary[i] << endl;
+        cout << left << setw(15) << names[i] << setw(10) << worker_id[i] << setw(10) << gender[i] << setw(20) << employee_type[i] << setw(15) << fixed << setprecision(2) << salary[i] << endl;
     }
     cout << "******************************************************************************************" << endl;
 }
@@ -406,6 +464,12 @@ void searchEmployee()
     }
 }
 
+void updateEmployee()
+{
+}
+void deleteEmployee()
+{
+}
 void viewSummaryReport()
 {
     int gender_count[2] = {0, 0};              // to keep track of the number, the first element is male and the second element is female
