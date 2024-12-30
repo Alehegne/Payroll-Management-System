@@ -466,6 +466,93 @@ void searchEmployee()
 
 void updateEmployee()
 {
+if (worker_count == 0)
+    {
+        cout << "No employees to update." << endl;
+        return;
+    }
+    int id;
+    cout << "Enter the Id of the employee to update: ";
+    cin >> id;
+
+    bool found = false;
+    int type;
+    for (int i = 0; i < worker_count; i++)
+    {
+        if (id == worker_id[i])
+        {
+            found = true;
+            cout << "Employee found!" << endl;
+            cout << "Enter the new details for the employee: " << endl;
+            cout << "Enter Employee Name: ";
+            clearInputBuffer();
+            getline(cin, names[i]);
+            cout << "Enter Employee Id: ";
+            cin >> id;
+            // check if the id is already taken
+            bool isIdTaken = false;
+            do
+            {
+                for (int i = 0; i < worker_count; i++)
+                {
+                    if (id == worker_id[i])
+                    {
+                        cout << "ID already taken. Please enter a different ID.\n";
+                        isIdTaken = true;
+                        break;
+                    }
+                    else
+                    {
+                        worker_id[worker_count] = id;
+                        isIdTaken = false;
+                    }
+                }
+            } while (isIdTaken);
+            cout << "Enter Employee gender (M/F): ";
+            cin >> gender[i];
+            cout << "Enter Employee Type (1: Manager, 2: Hourly Worker, 3: Commission Worker, 4: Pieceworker): ";
+            cin >> type;
+            switch (type)
+            {
+            case 1:               // Manager
+                salary[i] = 3000; // Fixed weekly salary
+                employee_type[i] = "Manager";
+                break;
+            case 2: // Hourly worker
+                cout << "enter the number of hours worked: ";
+                cin >> hoursWorked[i];
+                salary[i] = (hoursWorked[i] <= 40) ? (10 * hoursWorked[i]) : (10 * 40 + 15 * (hoursWorked[i] - 40));
+                employee_type[i] = "Hourly Worker";
+                break;
+            case 3: // Commission Worker
+                double weeklySales;
+                cout << "Enter Weekly Sales: ";
+                cin >> weeklySales;
+                salary[i] = 250 + weeklySales * 0.057;
+                employee_type[i] = "Commission Worker";
+                break;
+            case 4: // Pieceworker
+                double pieceRate;
+                double noOfItems;
+                cout << "Enter Number of Items Produced: ";
+                cin >> noOfItems; // Items produced
+                cout << "Enter Fixed Amount Per Item: ";
+                cin >> pieceRate;
+                salary[i] = noOfItems * pieceRate;
+                employee_type[i] = "Pieceworker";
+                break;
+            default:
+                cout << "Invalid employment type.\n";
+                continue;
+            }
+            cout << "Employee details updated successfully!" << endl;
+        }
+        else
+        {
+            cout << "Employee not found!" << endl;
+        }
+    }
+
 }
 void deleteEmployee()
 {
