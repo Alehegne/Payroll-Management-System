@@ -1,31 +1,47 @@
 Payroll Management System
 
-A collaborative C++ project to develop a comprehensive Payroll Management System that calculates weekly pay for employees based on their employment type, generates detailed reports,update ,delete, and provides a search feature for specific records.
+A collaborative C++ project to develop a comprehensive Payroll Management System
+that calculates weekly pay for employees based on their employment type, generates
+detailed reports,update ,delete, and provides a search feature for specific records.
 
 Features
+
 Employment Types Supported:
+
 Managers: Fixed weekly salary.
+
 Hourly Workers: Fixed hourly wage for up to 40 hours, with time-and-a-half for overtime.
+
 Commission Workers: Base salary (250 ETB) plus 5.7% of gross weekly sales.
+
 Pieceworkers: Payment based on the number of items produced.
 
 Core Functionalities
 
 Accepts employee details: Name, gender, employment type, weekly sales, or items produced.
+
 Calculates and displays weekly pay in a tabular format.
+
 Supports searching for specific employee records.
+
 Generates a summary report:
+
 Total number of employees.
+
 Total payments.
+
 Minimum and maximum payments by category.
 
 Technologies Used
+
 Programming Language: C++
+
 Libraries: Standard C++ Libraries for Input/Output,input output manipulation, and String Manipulation.
 
 Usage
 
 Run the program and follow prompts to:
+
 Enter employee details: name, gender, employment type, weekly sales, or items produced.
 View weekly pay calculations in a tabular format.
 Search for specific employee records by name.
