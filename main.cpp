@@ -469,6 +469,59 @@ void updateEmployee()
 }
 void deleteEmployee()
 {
+    if (worker_count == 0)
+    {
+        cout << "No employees to delete." << endl;
+        return;
+    }
+    int id;
+    cout << "Enter the Id of the employee to delete: ";
+    cin >> id;
+    if (cin.fail())
+    {
+        cout << "Invalid input. Please enter a number." << endl;
+        clearInputBuffer();
+    }
+    for (int i = 0; i < worker_count; i++)
+    {
+        if (id == worker_id[i])
+        {
+            char choice;
+            cout << "Are you sure you want to delete the employee record? (Y/N): ";
+            cin >> choice;
+            do
+            {
+                if (toupper(choice) == 'Y')
+                {
+                    for (int j = i; j < worker_count - 1; j++)
+                    {
+                        names[j] = names[j + 1];
+                        gender[j] = gender[j + 1];
+                        employee_type[j] = employee_type[j + 1];
+                        hoursWorked[j] = hoursWorked[j + 1];
+                        salary[j] = salary[j + 1];
+                        worker_id[j] = worker_id[j + 1];
+                    }
+                    worker_count--;
+                    cout << "Employee record deleted successfully!" << endl;
+                }
+                else if (toupper(choice) == 'N')
+                {
+                    cout << "Employee record not deleted." << endl;
+                }
+                else
+                {
+                    cout << "Invalid choice. Please enter 'Y' or 'N'." << endl;
+                }
+            } while (toupper(choice) != 'Y' && toupper(choice) != 'N');
+        }
+
+        else
+        {
+            cout << "Employee not found!" << endl;
+        }
+    }
+
 }
 void viewSummaryReport()
 {
