@@ -63,8 +63,8 @@ int main()
                 cout << "2. View Employee" << endl;
                 cout << "3. Search Employee" << endl;
                 cout << "4. View summary report" << endl;
-                cout << "5.update Employee details" << endl;
-                cout << "6.delete Employee record" << endl;
+                cout << "5. Update Employee details" << endl;
+                cout << "6. Delete Employee record" << endl;
                 cout << "7. Exit" << endl;
                 cout << "******************************************************************************************" << endl;
                 // User input
