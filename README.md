@@ -1,4 +1,4 @@
-Payroll Management System
+**Payroll Management System**
 
 
 A collaborative C++ project to develop a comprehensive Payroll Management System
@@ -6,73 +6,42 @@ that calculates weekly pay for employees based on their employment type, generat
 detailed reports,update ,delete, and provides a search feature for specific records.
 
 
+**Overall Structure**
 
-Features
+The main.cpp file forms the core of the Payroll Management System. It is modularly designed with functions handling different functionalities and a well-organized structure to manage employee data. The code begins with global constants and variables to define the maximum number of employees and store their data. Key function prototypes and utility functions, such as clearing input buffers and converting strings to lowercase, ensure smooth operation.
+The main program includes a menu-driven interface that allows users to interact with various features such as adding, viewing, searching, updating, deleting employees, and generating summary reports.
 
-Employment Types Supported:
+**Main Functionalities**
+Add Employee:
+Adds a new employee's details, including name, gender, ID, employment type, and salary. Input validation ensures accurate data entry and prevents duplicate IDs.
 
-Managers: Fixed weekly salary.
+View Employee:
+Displays all employee records in a formatted tabular layout, including name, ID, gender, type, and salary.
 
-Hourly Workers: Fixed hourly wage for up to 40 hours, with time-and-a-half for overtime.
+Search Employee:
+Allows users to search for employees by name, gender, or salary. It provides results in a structured format for clarity.
 
-Commission Workers: Base salary (250 ETB) plus 5.7% of gross weekly sales.
+Update Employee:
+Updates an existing employee's details, including their ID, name, gender, employment type, or salary. It validates new entries for accuracy and consistency.
 
-Pieceworkers: Payment based on the number of items produced.
+Delete Employee:
+Deletes an employee record after confirmation, adjusting the data arrays to maintain integrity.
 
-Core Functionalities
+Summary Report:
+Generates a report summarizing the number of employees by gender and type, total salaries paid, and statistics like maximum, minimum, and average salaries.
 
-Accepts employee details: Name, gender, employment type, weekly sales, or items produced.
-
-Calculates and displays weekly pay in a tabular format.
-
-Supports searching for specific employee records.
-
-Generates a summary report:
-
-Total number of employees.
-
-Total payments.
-
-Minimum and maximum payments by category.
-
-
-
-Technologies Used
-
-Programming Language: C++
-
-Libraries: Standard C++ Libraries for Input/Output,input output manipulation, and String Manipulation.
+**Key Global Variables and Constants**
+**Constants:**
+max_employees defines the maximum number of employees (100).
+Global Variables:
+onames[], gender[], employee_type[]: Arrays to store employee details.
+ohoursWorked[], salary[]: Arrays to track hours worked and salaries.
+oworker_count: Tracks the current number of employees.
+oworker_id[]: Stores unique IDs for each employee.
+This structured approach ensures scalability, ease of maintenance, and efficient handling of employee data.
 
 
-
-
-Usage
-
-Run the program and follow prompts to:
-
-Enter employee details: name, gender, employment type, weekly sales, or items produced.
-
-View weekly pay calculations in a tabular format.
-
-Search for specific employee records by name.
-
-update a specific employee detail.
-
-delete a specific employee detail.
-
-Generate a summary report for all employees:
-
-Total workers.
-
-Total payments.
-
-Minimum and maximum payments for each category.
-
-
-
-
-
-Contributions
+**Contributions**
 
 This project is a team effort developed by:
 
